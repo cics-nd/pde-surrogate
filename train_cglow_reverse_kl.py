@@ -59,8 +59,8 @@ class Parser(argparse.ArgumentParser):
         self.add_argument('--cuda', type=int, default=1, help='No. of GPU card to use, choices=[0, 1, 2, 3] on CRC')
         # logging
         self.add_argument('--debug', action='store_true', default=False, help='debug or verbose')
-        self.add_argument('--resume', action='store_true', default=False, help='debug or verbose')
-        self.add_argument('--ckpt-epoch', type=int, default=None, help='which epoch of checkpoints to be loaded in post mode')
+        self.add_argument('--resume', action='store_true', default=False, help='resume training from the lastest checkpoint')
+        self.add_argument('--ckpt-epoch', type=int, default=None, help='resume training from the checkpoint at this epoch')
         self.add_argument('--ckpt-freq', type=int, default=25, help='how many epochs to wait before saving model')
         self.add_argument('--log-freq', type=int, default=1, help='how many epochs to wait before logging training status')
         self.add_argument('--plot-freq', type=int, default=25, help='how many epochs to wait before plotting test output')

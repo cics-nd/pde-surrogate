@@ -936,23 +936,33 @@ class MultiScaleCondGlow(nn.Module):
         pred = self.sample(x_test, n_samples, temperature=temperature)
         return pred.mean(0), pred.var(0)
     
-    def propagate(self, mc_loader, n_samples=20, temperature=1.0):
+    def propagate(self, mc_loader, n_samples=20, temperature=1.0, var_samples=10):
         """Uncertainty propagation
+        E[Y] = E_X E[Y|X]
+        Var[Y] = E_X Var(Y|X) + Var_X E[Y|X]
         """
         # S x oC x oH x oW
         output_size = mc_loader.dataset[0][1].shape
-        cond_Ey = torch.zeros(n_samples, *output_size, device=self.device)
-        cond_Eyy = torch.zeros_like(cond_Ey)
+        Ey = torch.zeros(var_samples, *output_size, device=self.device)
+        Eyy, Vy = torch.zeros_like(Ey), torch.zeros_like(Ey)
 
-        for _, (x_mc, _) in enumerate(mc_loader):
-            # (S, B, C, H, W)
-            x_mc = x_mc.to(self.device)
-            y = self.sample(x_mc, n_samples=n_samples, temperature=temperature)
-            cond_Ey += y.mean(1)
-            cond_Eyy += y.pow(2).mean(1)
-        cond_Ey /= len(mc_loader)
-        cond_Eyy /= len(mc_loader)
-        y_cond_pred_var = cond_Eyy - cond_Ey ** 2 
-        # compute statistics of conditional statistics
-        return cond_Ey.mean(0), cond_Ey.var(0), \
-               y_cond_pred_var.mean(0), y_cond_pred_var.var(0)
+        for i in range(var_samples):
+            print(f'propagating for the {i}-th time...')
+            # repeat approximation of mean and var for `var_samples` times
+            for _, (x_mc, _) in enumerate(mc_loader):
+                # (S, B, C, H, W)
+                x_mc = x_mc.to(self.device)
+                y = self.sample(x_mc, n_samples=n_samples, temperature=temperature)
+                # (B, C, H, W)
+                y_mean = y.mean(0)
+                y2_mean = y.pow(2).mean(0)
+                # compute mean over B in mini-batch, (C, H, W)
+                Ey[i] += y_mean.mean(0)
+                Eyy[i] += y2_mean.mean(0)
+
+        Ey /= len(mc_loader)
+        Eyy /= len(mc_loader)
+        Vy = Eyy - Ey ** 2
+
+        # compute statistics of statistics
+        return Ey.mean(0), Ey.var(0), Vy.mean(0), Vy.var(0)

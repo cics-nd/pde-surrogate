@@ -5,3 +5,4 @@ fenics=2018.1.0
 matplotlib
 h5py
 json
+seaborn
