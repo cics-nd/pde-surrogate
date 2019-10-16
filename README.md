@@ -1,5 +1,5 @@
 # Physics-Constrained Surrogates without Labeled Data
-PyTorch implementation for [Physics-constrained deep learning for high-dimensional surrogate modeling and uncertainty quantification without labeled data](https://arxiv.org/abs/1901.06314). This is accompanished by appropriately incorporating the governing equations into the loss / likelihood functions, as demonstrated with both deterministic surrogates (convolutional encoder-decoder networks) and probabilistic surrogates (flow-based conditional generative models).
+PyTorch implementation for [Physics-constrained deep learning for high-dimensional surrogate modeling and uncertainty quantification without labeled data](https://arxiv.org/abs/1901.06314). This is accomplished by appropriately incorporating the governing equations into the loss / likelihood functions, as demonstrated with both deterministic surrogates (convolutional encoder-decoder networks) and probabilistic surrogates (flow-based conditional generative models).
 
 [Yinhao Zhu](https://scholar.google.com/citations?user=SZmaVZMAAAAJ&hl=en), [Nicholas Zabaras](https://engineering.nd.edu/profiles/nzabaras), [Phaedon-Stelios Koutsourelakis](https://www.professoren.tum.de/en/koutsourelakis-phaedon-stelios/), [Paris Perdikaris](https://www.seas.upenn.edu/directory/profile.php?ID=237)
 
