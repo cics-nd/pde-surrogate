@@ -61,7 +61,7 @@ python train_codec_max_likelihood.py --data grf_kle512 --ntrain 4096 --batch-siz
 
 ## Probabilistic Surrogates - Conditional Glow
 
-Train conditional Glow with reverse KL divergenece loss without output data
+Train conditional Glow with reverse KL divergence loss without output data
 ```
 python train_cglow_reverse_kl.py --beta 150 --ntrain 4096 --kle 100 --imsize 32
 ```
