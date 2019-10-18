@@ -54,7 +54,7 @@ class Parser(argparse.ArgumentParser):
         # training
         self.add_argument('--run', type=int, default=1, help='run instance')
         self.add_argument('--epochs', type=int, default=300, help='number of epochs to train')
-        self.add_argument('--lr', type=float, default=1e-3, help='learnign rate')
+        self.add_argument('--lr', type=float, default=1e-3, help='learning rate')
         self.add_argument('--lr-div', type=float, default=2., help='lr div factor to get the initial lr')
         self.add_argument('--lr-pct', type=float, default=0.3, help='percentage to reach the maximun lr, which is args.lr')
         self.add_argument('--weight-decay', type=float, default=0., help="weight decay")
